@@ -193,7 +193,7 @@ class MapThemeAdminView extends GalleryView {
 		}
 
 		if (!array_key_exists('ThumbBarPos', $form)) {
-			$form['ThumbBarPos'] = 0;
+			$form['ThumbBarPos'] = 'hidden';
 		}
 
 		if (!array_key_exists('ThumbHeight', $form)) {
@@ -206,6 +206,8 @@ class MapThemeAdminView extends GalleryView {
 		$mydir              = dir($basegallerydir . 'modules/mapv3/templates/infowindow/');
 		$form['windowlist'] = '';
 		// Loop through all file and folder in the directory
+		$infowindowFiles = array();
+
 		while ($file = $mydir->read()) {
 			// if we have a file then proceed with it
 			if (GoogleMapUtilities::GoodFile(
@@ -213,17 +215,22 @@ class MapThemeAdminView extends GalleryView {
 				$file
 			)
 			) {
-				$form['windowlist'] .= '<option value="' . substr($file, 0, -4) . '" ';
-
-				if ((array_key_exists('MapWindowType', $form))
-					and ($form['MapWindowType'] == substr($file, 0, -4))
-				) {
-					$form['windowlist'] .= 'selected';
-				}
-				$form['windowlist'] .= '>' . substr($file, 0, -4) . "</option>\n\t";
+				$infowindowFiles[] = $file;
 			}
 		}
 		$mydir->close();
+		asort($infowindowFiles);
+
+		foreach ($infowindowFiles as $file) {
+			$form['windowlist'] .= '<option value="' . substr($file, 0, -4) . '" ';
+
+			if ((array_key_exists('MapWindowType', $form))
+				and ($form['MapWindowType'] == substr($file, 0, -4))
+			) {
+				$form['windowlist'] .= 'selected';
+			}
+			$form['windowlist'] .= '>' . substr($file, 0, -4) . "</option>\n\t";
+		}
 		/*
 		 * Just make sure anything got created, if, not return an error that there is no control
 		 * available
