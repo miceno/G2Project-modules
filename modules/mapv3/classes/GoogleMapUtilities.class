@@ -243,9 +243,9 @@ class GoogleMapUtilities {
 	 *
 	 */
 	public static function TableFromFiles($folder, $webpath, $imagefolder) {
-		$BASE_PATH_STRING = 'modules/mapv3/classes';
-		$basegallerydir   = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
-		$base             = GalleryUtilities::convertPathToUrl($basegallerydir);
+		$basegallerydir = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
+		$module_path    = 'modules/mapv3/';
+		$base           = GalleryUtilities::convertPathToUrl($basegallerydir);
 
 		$mydir = dir($folder . $imagefolder);
 
@@ -269,9 +269,9 @@ class GoogleMapUtilities {
 					) {
 						$src = '"' . $base . $imagefolder . $name . '.png"';
 					} else {
-						$src = '"' . $base . 'modules/mapv3/images/blank.gif" style="filter: '
-							. 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\''
-						. $base . $imagefolder . $name . '.png\');"';
+						$src = '"' . $base . $module_path . 'images/blank.gif" style="filter: '
+							   . 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src=\''
+							   . $base . $imagefolder . $name . '.png\');"';
 					}
 					$sizes[2]         = $src;
 					$filenames[$name] = $sizes;
@@ -292,10 +292,9 @@ class GoogleMapUtilities {
 	 */
 	public static function AllMarkers($imagetype = 'markers') {
 		global $gallery;
-		$gurl             =& $gallery->getUrlGenerator();
-		$BASE_PATH_STRING = 'modules/mapv3/classes';
-		$basegallerydir   = substr(dirname(__FILE__), 0, -strlen($BASE_PATH_STRING));
-		$base             = $gurl->generateUrl(
+		$gurl           =& $gallery->getUrlGenerator();
+		$basegallerydir = dirname(dirname(dirname(dirname(__FILE__)))) . '/';
+		$base           = $gurl->generateUrl(
 			array(
 				'href' => '',
 			),
@@ -303,24 +302,24 @@ class GoogleMapUtilities {
 				'forceFullUrl' => true,
 			)
 		);
-		$mydir            = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/');
-		$filenamearray    = array();
+		$mydir          = dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/');
+		$filenamearray  = array();
+		$exclude_files  = array('.', '..', 'multi', 'CVS', '.svn');
 
 		while (($filenames = $mydir->read()) !== false) {
 			if (is_dir($basegallerydir . 'modules/mapv3/images/' . $imagetype . '/' . $filenames)
-				&& $filenames != '.' && $filenames != '..' && $filenames != 'multi'
-				&& $filenames != 'CVS' && $filenames != '.svn'
+				&& !in_array($filenames, $exclude_files)
 			) {
 				$mydir2     = dir(
 					$basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
-					  . $filenames . '/'
+					. $filenames . '/'
 				);
 				$imagearray = array();
 
 				while (($images = $mydir2->read()) !== false) {
 					if (is_file(
 						$basegallerydir . 'modules/mapv3/images/' . $imagetype . '/'
-							. $filenames . '/' . $images
+						. $filenames . '/' . $images
 					) && $images != 'colorlist'
 					) {
 						$imagearray[] = $images;
@@ -340,14 +339,14 @@ class GoogleMapUtilities {
 						|| preg_match('/opera/i', $_SERVER['HTTP_USER_AGENT'])
 					) {
 						$allimagesarray[] = $color . ': <img alt="none" src="' . $base
-							. 'modules/mapv3/images/' . $imagetype . '/'
-							. $filenames . '/' . $images . '"/>';
+											. 'modules/mapv3/images/' . $imagetype . '/'
+											. $filenames . '/' . $images . '"/>';
 					} else {
 						$allimagesarray[] = $color . ': <img alt="none" src="' . $base
-						. 'modules/mapv3/images/blank.gif" style="filter: progid:'
-						. 'DXImageTransform.Microsoft.AlphaImageLoader(src=\''
-						. $base . 'modules/mapv3/images/' . $imagetype . '/'
-						. $filenames . '/' . $images . '\');"/>';
+											. 'modules/mapv3/images/blank.gif" style="filter: progid:'
+											. 'DXImageTransform.Microsoft.AlphaImageLoader(src=\''
+											. $base . 'modules/mapv3/images/' . $imagetype . '/'
+											. $filenames . '/' . $images . '\');"/>';
 					}
 				}
 				$filenamearray[$filenames] = $allimagesarray;
@@ -434,93 +433,93 @@ class GoogleMapUtilities {
 			$lon[2]['Denominator'] = 100;
 			$lonRef[0]             = (floor($coords[1]) < 0) ? 'W' : 'E';
 			$gpsversion            = array(
-				'Tag Number'             => 0,
-				'Tag Name'               => 'GPS Tag Version',
-				'Tag Description'        => '',
-				'Data Type'              => 1,
-				'Type'                   => 'Numeric',
-				'Units'                  => '',
-				'Data'                   => array(2, 0, 0, 0),
-				'Text Value'             => '2,0,0,0',
-				'Decoded'                => 1,
+				'Tag Number'      => 0,
+				'Tag Name'        => 'GPS Tag Version',
+				'Tag Description' => '',
+				'Data Type'       => 1,
+				'Type'            => 'Numeric',
+				'Units'           => '',
+				'Data'            => array(2, 0, 0, 0),
+				'Text Value'      => '2,0,0,0',
+				'Decoded'         => 1,
 			);
 			$gpslatref             = array(
-				'Tag Number'         => 1,
-				'Tag Name'           => 'North or South Latitude',
-				'Tag Description'    => '',
-				'Data Type'          => 2,
-				'Type'               => 'String',
-				'Units'              => '',
-				'Data'               => $latRef,
-				'Text Value'         => $latRef[0],
-				'Decoded'            => 1,
+				'Tag Number'      => 1,
+				'Tag Name'        => 'North or South Latitude',
+				'Tag Description' => '',
+				'Data Type'       => 2,
+				'Type'            => 'String',
+				'Units'           => '',
+				'Data'            => $latRef,
+				'Text Value'      => $latRef[0],
+				'Decoded'         => 1,
 			);
 			$gpslat                = array(
-				'Tag Number'         => 2,
-				'Tag Name'           => 'Latitude',
-				'Tag Description'    => '',
-				'Data Type'          => 5,
-				'Type'               => 'Numeric',
-				'Units'              => '(Degrees Minutes Seconds North or South)',
-				'Data'               => $lat,
-				'Text Value'         => $lat[0]['Numerator'] . '/'
+				'Tag Number'      => 2,
+				'Tag Name'        => 'Latitude',
+				'Tag Description' => '',
+				'Data Type'       => 5,
+				'Type'            => 'Numeric',
+				'Units'           => '(Degrees Minutes Seconds North or South)',
+				'Data'            => $lat,
+				'Text Value'      => $lat[0]['Numerator'] . '/'
 					. $lat[0]['Denominator'] . ' (' . $lat[0]['Numerator'] / $lat[0]['Denominator'] . '), ' . $lat[1]['Numerator']
 					. '/' . $lat[1]['Denominator'] . ' ('
 					. $lat[1]['Numerator'] / $lat[1]['Denominator'] . '), '
 					. $lat[2]['Numerator'] . '/' . $lat[2]['Denominator']
 					. ' (' . $lat[2]['Numerator'] / $lat[2]['Denominator']
 					. '), (Degrees Minutes Seconds North or South)',
-				'Decoded'            => 1,
+				'Decoded'         => 1,
 			);
 			$gpslonref             = array(
-				'Tag Number'         => 3,
-				'Tag Name'           => 'East or West Longitude',
-				'Tag Description'    => '',
-				'Data Type'          => 2,
-				'Type'               => 'String',
-				'Units'              => '',
-				'Data'               => $lonRef,
-				'Text Value'         => $lonRef[0],
-				'Decoded'            => 1,
+				'Tag Number'      => 3,
+				'Tag Name'        => 'East or West Longitude',
+				'Tag Description' => '',
+				'Data Type'       => 2,
+				'Type'            => 'String',
+				'Units'           => '',
+				'Data'            => $lonRef,
+				'Text Value'      => $lonRef[0],
+				'Decoded'         => 1,
 			);
 			$gpslon                = array(
-				'Tag Number'         => 4,
-				'Tag Name'           => 'Longitude',
-				'Tag Description'    => '',
-				'Data Type'          => 5,
-				'Type'               => 'Numeric',
-				'Units'              => '(Degrees Minutes Seconds North or South)',
-				'Data'               => $lon,
-				'Text Value'         => $lon[0]['Numerator'] . '/'
+				'Tag Number'      => 4,
+				'Tag Name'        => 'Longitude',
+				'Tag Description' => '',
+				'Data Type'       => 5,
+				'Type'            => 'Numeric',
+				'Units'           => '(Degrees Minutes Seconds North or South)',
+				'Data'            => $lon,
+				'Text Value'      => $lon[0]['Numerator'] . '/'
 					. $lon[0]['Denominator'] . ' (' . $lon[0]['Numerator'] / $lon[0]['Denominator'] . '), ' . $lon[1]['Numerator']
 					. '/' . $lon[1]['Denominator'] . ' ('
 					. $lon[1]['Numerator'] / $lon[1]['Denominator'] . '), '
 					. $lon[2]['Numerator'] . '/' . $lon[2]['Denominator']
 					. ' (' . $lon[2]['Numerator'] / $lon[2]['Denominator']
 					. '), (Degrees Minutes Seconds North or South)',
-				'Decoded'            => 1,
+				'Decoded'         => 1,
 			);
 			$gpsinfos              = array(
-				'Tags Name'         => 'GPS',
-				'Tiff Offset'       => 12,
-				'0'                 => $gpsversion,
-				'1'                 => $gpslatref,
-				'2'                 => $gpslat,
-				'3'                 => $gpslonref,
-				'4'                 => $gpslon,
+				'Tags Name'   => 'GPS',
+				'Tiff Offset' => 12,
+				'0'           => $gpsversion,
+				'1'           => $gpslatref,
+				'2'           => $gpslat,
+				'3'           => $gpslonref,
+				'4'           => $gpslon,
 			);
 			$exifdata[0][34853]    = array(
-				'Tag Number'                 => 34853,
-				'Tag Name'                   => 'GPS Info Image File Directory (IFD)',
-				'Tag Description'            => '',
-				'Data Type'                  => 4,
-				'Type'                       => 'SubIFD',
-				'Units'                      => '',
-				'Data'                       => array(
+				'Tag Number'      => 34853,
+				'Tag Name'        => 'GPS Info Image File Directory (IFD)',
+				'Tag Description' => '',
+				'Data Type'       => 4,
+				'Type'            => 'SubIFD',
+				'Units'           => '',
+				'Data'            => array(
 					'0' => $gpsinfos,
 				),
-				'Text Value'                 => '',
-				'Decoded'                    => 1,
+				'Text Value'      => '',
+				'Decoded'         => 1,
 			);
 			$jpeg_header_data      = put_EXIF_JPEG($exifdata, $jpeg_header_data);
 			put_jpeg_header_data($filename, $filename, $jpeg_header_data);
