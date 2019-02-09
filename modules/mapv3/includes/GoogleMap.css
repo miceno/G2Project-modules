@@ -70,8 +70,12 @@ div.thumbbar {
   border:1px solid black;
 }
 
-div.thumbbar img{
-  border:0px;
+div.thumbbar#thumbs .active img {
+	border: red solid thick;
+}
+
+div.thumbbar#thumbs img {
+  border: transparent solid thick;
   margin:0px;
   padding-top:2px;
   padding-right:1px;
