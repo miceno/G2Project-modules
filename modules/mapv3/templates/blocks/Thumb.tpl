@@ -28,16 +28,16 @@
 
 {assign var=vertical value=""}
 {assign var=horizontal value=""}
-{if $mapv3.ThumbBarPos eq "1"}
+{if $mapv3.ThumbBarPos eq "top"}
 {assign var=vertical value="vertical tbtop"}
 {/if}
-{if $mapv3.ThumbBarPos eq "2"}
+{if $mapv3.ThumbBarPos eq "bottom"}
 {assign var=vertical value="vertical tbbottom"}
 {/if}
-{if $mapv3.ThumbBarPos eq "3"}
+{if $mapv3.ThumbBarPos eq "right"}
 {assign var=horizontal value="horizontal tbright"}
 {/if}
-{if $mapv3.ThumbBarPos eq "4"}
+{if $mapv3.ThumbBarPos eq "left"}
 {assign var=horizontal value="horizontal tbleft"}
 {/if}
 
