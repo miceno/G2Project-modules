@@ -32,12 +32,22 @@
  * @package map
  */
 class mapv3Module extends GalleryModule {
+	private static $_CONVERSION_MATRIX = array(
+		'ThumbBarPos' => array(
+			0 => 'hidden',
+			1 => 'top',
+			2 => 'bottom',
+			3 => 'right',
+			4 => 'left',
+		),
+	);
+
 	public function __construct() {
 		global $gallery;
 		$this->setId('mapv3');
 		$this->setName($gallery->i18n('Google Maps API v3 Module'));
 		$this->setDescription($gallery->i18n('Show items on a dynamic Google Map'));
-		$this->setVersion('0.6');
+		$this->setVersion('0.6.1');
 		$this->_templateVersion = 1;
 		$this->setGroup('gallery', $gallery->i18n('Gallery'));
 		$this->setCallbacks(
@@ -125,7 +135,7 @@ class mapv3Module extends GalleryModule {
 		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'FilterFeature', 0);
 		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'GroupFeature', 0);
 		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'RouteFeature', 0);
-		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ThumbBarPos', 0);
+		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ThumbBarPos', 'hidden');
 		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'ThumbHeight', 60);
 		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'linktype', 0);
 		GalleryCoreApi::setPluginParameter('module', 'mapv3', 'AdminHelp', 1);
@@ -166,9 +176,9 @@ class mapv3Module extends GalleryModule {
 		);
 
 		// By default admin can edit everything
-		list($ret, $rootalbum)   = GalleryCoreApi::getPluginParameter('module', 'core', 'id.rootAlbum');
-		list($ret, $siteadmins)  = GalleryCoreApi::getPluginParameter('module', 'core', 'id.adminGroup');
-		$ret                     = GalleryCoreApi::addGroupPermission($rootalbum, $siteadmins, 'mapv3.EditMap', true);
+		list($ret, $rootalbum)  = GalleryCoreApi::getPluginParameter('module', 'core', 'id.rootAlbum');
+		list($ret, $siteadmins) = GalleryCoreApi::getPluginParameter('module', 'core', 'id.adminGroup');
+		$ret                    = GalleryCoreApi::addGroupPermission($rootalbum, $siteadmins, 'mapv3.EditMap', true);
 
 		if ($ret) {
 			return array($ret->wrap(__FILE__, __LINE__), null);
@@ -240,21 +250,21 @@ class mapv3Module extends GalleryModule {
 		global $gallery;
 		$rules = array();
 
-		$rule                 = array();
-		$rule['comment']      = 'View Google Map Group';
-		$rule['match']        = array(
+		$rule             = array();
+		$rule['comment']  = 'View Google Map Group';
+		$rule['match']    = array(
 			'view' => 'mapv3.ShowMap',
 		);
 		$rule['pattern']  = 'Map/%Group%';
 		$rule['keywords'] = array(
-				'Group' => array(
-					'pattern' => '(G{1}[0-9]+)*',
-					'help'    => $this->_translate(
-						'The ID of the group to show, '
-						. 'No group will show the default Map'
-					),
+			'Group' => array(
+				'pattern' => '(G{1}[0-9]+)*',
+				'help'    => $this->_translate(
+					'The ID of the group to show, '
+					. 'No group will show the default Map'
 				),
-			);
+			),
+		);
 		$rules[0]         = $rule;
 
 		return $rules;
@@ -359,8 +369,8 @@ class mapv3Module extends GalleryModule {
 				} else {
 					$NitemId = $itemId;
 				}
-				list($ret, $item)  = GalleryCoreApi::loadEntitiesById($NitemId);
-				$name              = $item->getTitle();
+				list($ret, $item) = GalleryCoreApi::loadEntitiesById($NitemId);
+				$name             = $item->getTitle();
 
 				$goodalbum = false;
 
@@ -397,10 +407,10 @@ class mapv3Module extends GalleryModule {
 						$links[$itemId][] = array(
 							'text'   => $this->_translate('View Album on a Map'),
 							'params' => array(
-								'view'             => 'mapv3.ShowMap',
-								'Mode'             => 'Normal',
-								'Group'            => '',
-								'album'            => $name,
+								'view'  => 'mapv3.ShowMap',
+								'Mode'  => 'Normal',
+								'Group' => '',
+								'album' => $name,
 							),
 						);
 					} else {
@@ -486,7 +496,7 @@ class mapv3Module extends GalleryModule {
 				// Upgrade from when we were using CustomField
 
 				// get CustomfieldMap table fields related to Map
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryCustomFieldMap]
@@ -511,7 +521,7 @@ class mapv3Module extends GalleryModule {
 		    INSERT INTO
 		    [mapv3Map]
 		    VALUES (\'' . $result[0] . '\',\'' . $result[1] . '\',\'' . $result[2]
-						. '\',\'' . $result[3] . '\',\'' . $result[4] . '\')
+									   . '\',\'' . $result[3] . '\',\'' . $result[4] . '\')
 		    ';
 
 						$ret = $storage->execute($insertquery); // put the values in Mapmap
@@ -547,10 +557,10 @@ class mapv3Module extends GalleryModule {
 
 						if ($posyes and $usingnewroutes == 0) {
 							$newroutes[] = substr($route, 0, $posyes + 4) . '`No'
-							   . substr($route, $posyes + 4) . '<br>';
+										   . substr($route, $posyes + 4) . '<br>';
 						} elseif ($posno and $usingnewroutes == 0) {
 							$newroutes[] = substr($route, 0, $posno + 3) . '`No'
-							   . substr($route, $posno + 3) . '<br>';
+										   . substr($route, $posno + 3) . '<br>';
 						}
 					}
 
@@ -566,7 +576,7 @@ class mapv3Module extends GalleryModule {
 				 * @todo The substr() method is fragile. Change to use
 				 * GalleryCoreApi::getPluginBaseDir() for now, then getCodeBasePath() for Gallery 2.3+
 				 */
-				//      $basegallerydir = substr(dirname(__FILE__), 0, -11);
+				//	    $basegallerydir = substr(dirname(__FILE__), 0, -11);
 				$basegallerydir = GalleryCoreApi::getCodeBasePath();
 				/**
 				 * @todo This is the only place CopyDir is used. If we can move that functionality
@@ -583,8 +593,8 @@ class mapv3Module extends GalleryModule {
 
 				// Upgrade routes to be pointing to Item instead of coordinates of items
 				// Get current routes
-				list($ret, $routes)  = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Routes');
-				$newroutes           = '';
+				list($ret, $routes) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'Routes');
+				$newroutes          = '';
 
 				if (!empty($routes)) { // there is some route, fix them :-)
 					$allroutes = explode('|', $routes);
@@ -592,12 +602,12 @@ class mapv3Module extends GalleryModule {
 					foreach ($allroutes as $route) { // go through each route
 						$routeinfos = explode('`', $route);
 						$theroute   = $routeinfos[0] . '`' . $routeinfos[1] . '`' . $routeinfos[2]
-							. '`' . $routeinfos[3] . '`' . $routeinfos[4] . '`' . $routeinfos[5]
-							. '`' . $routeinfos[6];
+									  . '`' . $routeinfos[3] . '`' . $routeinfos[4] . '`' . $routeinfos[5]
+									  . '`' . $routeinfos[6];
 
 						for ($i = 7; $i < count($routeinfos); $i++) {
 							// Search for the itemid from the coordinate and replace
-							$query                = '					    
+							$query               = '					    
 			SELECT
 			  [mapv3Map::itemId]
 			FROM
@@ -680,7 +690,7 @@ class mapv3Module extends GalleryModule {
 			case '0.5.0f':
 			case '0.5.0g':
 				// Reverse the existing 'GPS' coordinates in the DB
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [mapv3Map]
@@ -720,7 +730,7 @@ class mapv3Module extends GalleryModule {
 				// End reversing GPS coordinates in DB
 
 				// Update map type
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -773,7 +783,7 @@ class mapv3Module extends GalleryModule {
 				// End updating the Map Type in the DB
 
 				// Reverse the Map Center parameter
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -817,7 +827,7 @@ class mapv3Module extends GalleryModule {
 				// End reversing the coordinates in the Map Center Paramater
 
 				// Reverse the Default Map Center parameter
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -860,7 +870,7 @@ class mapv3Module extends GalleryModule {
 				// End reversing the coordinates in the Default Map Center Paramater
 
 				// Updating the Zoom Level
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -903,7 +913,7 @@ class mapv3Module extends GalleryModule {
 				// End updating the Map Zoom
 
 				// Updating the Default Zoom Level
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -946,7 +956,7 @@ class mapv3Module extends GalleryModule {
 				// End updating the Default Map Zoom
 
 				// Updating the Default ZoomIn Level
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -989,7 +999,7 @@ class mapv3Module extends GalleryModule {
 				// End updating the Default Map ZoomIn
 
 				// Updating the Manual Filter information
-				$query                = '
+				$query               = '
 	    SELECT *
 	    FROM
 	      [GalleryPluginParameterMap]
@@ -1074,8 +1084,8 @@ class mapv3Module extends GalleryModule {
 			case '0.5.5':
 			case '0.5.6':
 				// Change stored map keys to new style
-				$newKeys              = array();
-				list($ret, $mapKeys)  = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'MapKeys');
+				$newKeys             = array();
+				list($ret, $mapKeys) = GalleryCoreApi::getPluginParameter('module', 'mapv3', 'MapKeys');
 				/* Format of old keys as serialized in the database:
 				 * 1`P1Name`P1Host`P1Port`P1ApiKey|2`P2Name`P2Host`P2Port`P2ApiKey
 				 * Format of new keys serialized in the database:
@@ -1120,6 +1130,28 @@ class mapv3Module extends GalleryModule {
 					}
 					GalleryCoreApi::removePluginParameter('module', 'mapv3', 'EditKey');
 				}
+				// Fall Through
+			case '0.6':
+				// Change names of plugin parameters from numbers to text to better read them.
+				list($ret, $thumbBarPosition) = GalleryCoreApi::getPluginParameter(
+					'module',
+					'mapv3',
+					'ThumbBarPos'
+				);
+
+				if (is_numeric($thumbBarPosition)) {
+					$thumbBarPosition = mapv3Module::paramNumberToText('ThumbBarPos', $thumbBarPosition);
+					$ret              = GalleryCoreApi::setPluginParameter(
+						'module',
+						'mapv3',
+						'ThumbBarPos',
+						$thumbBarPosition
+					);
+
+					if ($ret) {
+						return $ret;
+					}
+				}
 
 				// Fall Through
 			case 'end of upgrade path':
@@ -1128,6 +1160,26 @@ class mapv3Module extends GalleryModule {
 				 * properly terminate our upgrade path with a break
 				 */
 				break;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the new value of a parameter.
+	 *
+	 * @param $paramName
+	 * @param $oldValue
+	 *
+	 * @static
+	 */
+	private static function paramNumberToText($paramName, $oldValue) {
+		if (array_key_exists($paramName, mapv3Module::$_CONVERSION_MATRIX)) {
+			$c = mapv3Module::$_CONVERSION_MATRIX[$paramName];
+
+			if (array_key_exists($oldValue, $c)) {
+				return $c[$oldValue];
+			}
 		}
 
 		return null;
