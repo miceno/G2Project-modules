@@ -43,7 +43,7 @@ $map['infowindows'][1] = $map['infowindows'][1] . "
 
 if ($map['showZoomLinks']) {
 	$map['infowindows'][1] = $map['infowindows'][1] . "
-	+'<br/><br/><a href=\"#zoominlink\" onclick=\"javascript:map.setCenter(new GLatLng('+lat+','+lon+'), '+zoomlevel+');return false;\">" . $module->translate('Zoom In') . "</a>'";
+	+'<br/><br/><a href=\"#zoominlink\" onclick=\"javascript:map.setCenter(new google.maps.LatLng('+lat+','+lon+'));map.setZoom('+zoomlevel+');return false;\">" . $module->translate('Zoom In') . "</a>'";
 }
 
 $map['infowindows'][1] = $map['infowindows'][1] . "
