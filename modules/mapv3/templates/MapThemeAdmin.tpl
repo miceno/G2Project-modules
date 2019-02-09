@@ -180,12 +180,12 @@ Theme settings
             <th><img onclick="javascript:showhelp(_HP_T_ThumbnailBarPos,550)" alt="help" style='cursor:pointer;{if !$form.IE}' src="{$form.picbase}help.png" {else}filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src="{$form.picbase}help.png");' src='{$form.picbase}blank.gif'{/if}/></th>
             {/if}            
             <td>
-                <select name="{g->formVar var="form[ThumbBarPos]"}" value="{$form.MapWindowType}">
-                  <option value="0">{g->text text="Hide" hint="Don't display"}</option>
-                  <option value="1" {if $form.ThumbBarPos eq 1}selected{/if}>{g->text text="Top" hint="Opposite of bottom"}</option>
-                  <option value="2" {if $form.ThumbBarPos eq 2}selected{/if}>{g->text text="Bottom" hint="Opposite of top"}</option>
-                  <option value="3" {if $form.ThumbBarPos eq 3}selected{/if}>{g->text text="Right" hint="Opposite of left"}</option>
-                  {*<option value="4" {if $form.ThumbBarPos eq 4}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option> Ain't working right*}
+                <select name="{g->formVar var="form[ThumbBarPos]"}" value="{$form.ThumbBarPos}">
+                  <option value="hidden">{g->text text="Hide" hint="Don't display"}</option>
+                  <option value="top" {if $form.ThumbBarPos eq "top"}selected{/if}>{g->text text="Top" hint="Opposite of bottom"}</option>
+                  <option value="bottom" {if $form.ThumbBarPos eq "bottom"}selected{/if}>{g->text text="Bottom" hint="Opposite of top"}</option>
+                  <option value="right" {if $form.ThumbBarPos eq "right"}selected{/if}>{g->text text="Right" hint="Opposite of left"}</option>
+                  {*<option value="left" {if $form.ThumbBarPos eq "left"}selected{/if}>{g->text text="Left" hint="Opposite of right"}</option> Ain't working right*}
                 </select>
             </td>
         </tr>
