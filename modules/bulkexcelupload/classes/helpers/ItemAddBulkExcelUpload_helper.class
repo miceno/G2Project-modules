@@ -269,16 +269,16 @@ class ItemAddBulkExcelUpload_helper {
 
 				$dateFromExcel         = ItemAddBulkExcelUpload_helper::getDateFromExcel($current_row['date']);
 				$keywords              = array(
-						$current_row['number'],
-						$folder_number,
-						$folder_name,
-						$folder_number . ' ' . $folder_name,
-						$current_row['terms'],
-						$current_row['media'],
-						$current_row['place'],
-						'Autor: ' . $current_row['author'],
-						$dateFromExcel,
-					);
+					$current_row['number'],
+					$folder_number,
+					$folder_name,
+					$folder_number . ' ' . $folder_name,
+					$current_row['terms'],
+					$current_row['media'],
+					$current_row['place'],
+					'Autor: ' . $current_row['author'],
+					$dateFromExcel,
+				);
 				$data_line['keywords'] = join($keyword_delimiter, $keywords);
 
 				// TODO: Review paths
@@ -361,10 +361,25 @@ class ItemAddBulkExcelUpload_helper {
 			$file_name = $form['tmp_name'][$file_field];
 
 			$is_valid = $is_valid && $platform->is_readable($file_name)
-			                      && !$platform->is_dir($file_name);
+								                 && !$platform->is_dir($file_name);
 		}
 
 		return array($is_valid, $warning, $error);
+	}
+
+	/**
+	 * Check the parameter $path is an absolute or relative path.
+	 * An empty $path is a relative path.
+	 *
+	 * @param $path
+	 * @return bool
+	 */
+	public static function isAbsolutePath($path) {
+		if ($path === null || $path === '') {
+			return false;
+		}
+
+		return $path[0] === DIRECTORY_SEPARATOR || preg_match('~\A[A-Z]:(?![^/\\\\])~i', $path) > 0;
 	}
 
 	/**
@@ -403,7 +418,7 @@ class ItemAddBulkExcelUpload_helper {
 
 			$fileName = $fields['filename'];
 
-			if (!GalleryUtilities::is_absolute_path($fileName)) {
+			if (!ItemAddBulkExcelUpload_helper::isAbsolutePath($fileName)) {
 				// Add the basePath to the file name in case it is a relative path.
 				$fileName = $basePathDirname . DIRECTORY_SEPARATOR . $fileName;
 			}
