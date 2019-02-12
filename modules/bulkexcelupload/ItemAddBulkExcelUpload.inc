@@ -17,6 +17,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street - Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 /**
  * @version $$ $$
  * @package ItemAdd
@@ -61,7 +62,7 @@ class ItemAddBulkExcelUpload extends ItemAddPlugin {
 	 * @param $addController
 	 * @return array
 	 */
-	public function handleRequest($form, &$item, &$addController) {
+	public function handleRequest($form, &$item, &$addController = null) {
 		global $gallery;
 		$platform     =& $gallery->getPlatform();
 		$classes_path = 'modules/bulkexcelupload/classes/helpers/';
