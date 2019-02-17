@@ -108,12 +108,13 @@ class ItemAddBulkExcelUpload_helper {
 		$header_cols = count($header);
 		GalleryCoreApi::requireOnce('modules/bulkexcelupload/vendor/simplexlsx.class.php');
 
-		$ret  = null;
-		$xlsx = SimpleXLSX::parse($fileName);
-		$xlsx->setDateTimeFormat('d/m/Y');
+		$ret         = null;
+		$xlsx        = SimpleXLSX::parse($fileName);
 		$result_rows = array();
 
 		if ($xlsx) {
+			$xlsx->setDateTimeFormat('d/m/Y');
+
 			foreach ($xlsx->rows() as $r => $row) {
 				if ($hasHeader && $r === 0) {
 					continue;
@@ -361,7 +362,7 @@ class ItemAddBulkExcelUpload_helper {
 			$file_name = $form['tmp_name'][$file_field];
 
 			$is_valid = $is_valid && $platform->is_readable($file_name)
-								                 && !$platform->is_dir($file_name);
+												             && !$platform->is_dir($file_name);
 		}
 
 		return array($is_valid, $warning, $error);
