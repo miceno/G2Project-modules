@@ -10,8 +10,9 @@ a:hover {ldelim} outline: none; {rdelim}
 {/literal} *}
 
 {assign var=barPosition value="`$mapv3.ThumbBarPos`"}
-
-{include file="modules/mapv3/includes/GoogleMap.css"}
+{if isset($mapv3) }
+	{include file="modules/mapv3/includes/GoogleMap.css"}
+{/if}
 <!-- Google Maps script -->
 {if isset($mapv3.googleMapKey) and $mapv3.googleMapKey neq 'f'}
 <script src="//maps.googleapis.com/maps/api/js?file=api&amp;v=3&amp;key={$mapv3.googleMapKey}"
@@ -295,6 +296,7 @@ a:hover {ldelim} outline: none; {rdelim}
     var bounds = new google.maps.LatLngBounds();
     var maxZoom = 10; // default to somewhat zoomed-out
     var ARROW_IMG_URL = "{g->url href="modules/mapv3/images/arrow.png"}";
+    var zIndex = 0;
 
 
     function ShowMeTheMap(){ldelim}
@@ -438,6 +440,7 @@ a:hover {ldelim} outline: none; {rdelim}
             {/if}
             {literal}
             var marker = new google.maps.Marker({position: point, icon: icon.url});
+
             marker.onmap = true;
             marker.showHigh = showHigh;
             marker.showLow = showLow;
@@ -449,17 +452,17 @@ a:hover {ldelim} outline: none; {rdelim}
             });
             marker.addListener("click", function () {
                 tooltip.style.visibility = "hidden";
-                if (infowindow === null){
+                zIndex += 1;
+                if (infowindow === null) {
                     if (htmls.length > 2) {
 	                htmls[0] = '<div style="width:' + htmls.length * 88 + 'px">' + htmls[0] + '<\/div>';
                     }
                     var info_content = htmls.join();
                     infowindow = new google.maps.InfoWindow({content: info_content});
                     allInfoWindows.push(infowindow);
-                    infowindow.open(map, marker);
-                }else{
-                    infowindow.open(map, marker);
                 }
+                infowindow.open(map, marker);
+                infowindow.setZIndex(zIndex);
                 setMapCenter(map, point);
                 var thumb = document.querySelector('#thumb'+this.num);
                 if (thumb){
