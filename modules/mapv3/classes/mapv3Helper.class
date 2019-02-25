@@ -54,8 +54,8 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 		$fallback = true,
 		$sets = array('common', 'album', 'photo')
 	) {
-		$isContainer        = ($containerId > 0);
-		list($ret, $param)  = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3', $containerId);
+		$isContainer       = ($containerId > 0);
+		list($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3', $containerId);
 
 		if ($ret) {
 			return array($ret->wrap(__FILE__, __LINE__), null, null);
@@ -76,10 +76,10 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 			foreach ((!empty($param[$set]) ? explode('|', $param[$set]) : array()) as $tmp) {
 				$list           = explode('`', $tmp);
 				$result[$set][] = array(
-					'field'             => $list[0],
-					'summary'           => ($list[1] == '1'),
-					'detail'            => ($list[2] == '1'),
-					'choices'           => array_splice($list, 3),
+					'field'   => $list[0],
+					'summary' => ($list[1] == '1'),
+					'detail'  => ($list[2] == '1'),
+					'choices' => array_splice($list, 3),
 				);
 			}
 		}
@@ -148,10 +148,10 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 			}
 		}
 		$param[$set][] = array(
-			'field'                      => $newField,
-			'summary'                    => false,
-			'detail'                     => true,
-			'choices'                    => array(),
+			'field'   => $newField,
+			'summary' => false,
+			'detail'  => true,
+			'choices' => array(),
 		);
 		$ret           = mapv3Helper::saveParameters(
 			array(
@@ -319,9 +319,9 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 	 * @static
 	 */
 	public static function saveFieldValues(&$item, $fields) {
-		$set                = (GalleryUtilities::isA($item, 'GalleryAlbumItem')) ? 1 : ((GalleryUtilities::isA($item, 'GalleryPhotoItem')) ? 2 : 0);
-		$containerId        = ($set == 1) ? $item->getId() : $item->getParentId();
-		list($ret, $param)  = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3', $containerId);
+		$set               = (GalleryUtilities::isA($item, 'GalleryAlbumItem')) ? 1 : ((GalleryUtilities::isA($item, 'GalleryPhotoItem')) ? 2 : 0);
+		$containerId       = ($set == 1) ? $item->getId() : $item->getParentId();
+		list($ret, $param) = GalleryCoreApi::fetchAllPluginParameters('module', 'mapv3', $containerId);
 
 		if ($ret) {
 			return $ret->wrap(__FILE__, __LINE__);
@@ -344,11 +344,11 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 				$ret = GalleryCoreApi::addMapEntry(
 					'mapv3Map',
 					array(
-						'itemId'                  => $item->getId(),
-						'field'                   => $field,
-						'value'                   => $value,
-						'setId'                   => $isContainer ? $containerId : 0,
-						'setType'                 => $set,
+						'itemId'  => $item->getId(),
+						'field'   => $field,
+						'value'   => $value,
+						'setId'   => $isContainer ? $containerId : 0,
+						'setType' => $set,
 					)
 				);
 
@@ -708,8 +708,8 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 		$urlGenerator =& $gallery->getUrlGenerator();
 
 		// Grab the current URL directory
-		$urlDir               = $urlGenerator->getCurrentUrlDir();
-		list($ret, $profile)  = mapv3Helper::fetchKeyProfileForUrl($urlDir);
+		$urlDir              = $urlGenerator->getCurrentUrlDir();
+		list($ret, $profile) = mapv3Helper::fetchKeyProfileForUrl($urlDir);
 
 		if ($ret) {
 			return array($ret, null);
@@ -1238,8 +1238,8 @@ class mapv3Helper extends mapv3Interface_1_0 // and GalleryEventListener
 			return array($ret, array());
 		}
 
-		$items                    = array();
-		list($ret, $groupsinfos)  = mapv3Helper::_getGroupsFromDB();
+		$items                   = array();
+		list($ret, $groupsinfos) = mapv3Helper::_getGroupsFromDB();
 
 		if ($ret) {
 			return array($ret, null);

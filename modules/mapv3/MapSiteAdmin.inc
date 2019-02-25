@@ -46,9 +46,9 @@ class MapSiteAdminController extends GalleryController {
 			$results['status']   = $status;
 			$results['error']    = array();
 			$results['redirect'] = array(
-				'view'                 => 'core.SiteAdmin',
-				'subView'              => 'mapv3.MapSiteAdmin',
-				'mode'                 => 'General',
+				'view'    => 'core.SiteAdmin',
+				'subView' => 'mapv3.MapSiteAdmin',
+				'mode'    => 'General',
 			);
 		}
 
@@ -154,9 +154,9 @@ class MapSiteAdminController extends GalleryController {
 			$results['status'] = $status;
 			$results['error']  = $error;
 			$results[$method]  = array(
-				'view'             => 'core.SiteAdmin',
-				'subView'          => 'mapv3.MapSiteAdmin',
-				'mode'             => 'General',
+				'view'    => 'core.SiteAdmin',
+				'subView' => 'mapv3.MapSiteAdmin',
+				'mode'    => 'General',
 			);
 		}
 
@@ -166,10 +166,10 @@ class MapSiteAdminController extends GalleryController {
 			$results['status']   = '';
 			$results['error']    = '';
 			$results['redirect'] = array(
-				'view'                 => 'core.SiteAdmin',
-				'subView'              => 'mapv3.MapSiteAdmin',
-				'mode'                 => 'mapKey',
-				'keyUrl'               => $url,
+				'view'    => 'core.SiteAdmin',
+				'subView' => 'mapv3.MapSiteAdmin',
+				'mode'    => 'mapKey',
+				'keyUrl'  => $url,
 			);
 		}
 
@@ -178,9 +178,9 @@ class MapSiteAdminController extends GalleryController {
 			$results['status']   = array();
 			$results['error']    = array();
 			$results['redirect'] = array(
-				'view'                 => 'core.SiteAdmin',
-				'subView'              => 'mapv3.MapSiteAdmin',
-				'mode'                 => 'mapKey',
+				'view'    => 'core.SiteAdmin',
+				'subView' => 'mapv3.MapSiteAdmin',
+				'mode'    => 'mapKey',
 			);
 		}
 
@@ -194,9 +194,9 @@ class MapSiteAdminController extends GalleryController {
 			$results['status']   = $status;
 			$results['error']    = array();
 			$results['redirect'] = array(
-				'view'                 => 'core.SiteAdmin',
-				'subView'              => 'mapv3.MapSiteAdmin',
-				'mode'                 => 'General',
+				'view'    => 'core.SiteAdmin',
+				'subView' => 'mapv3.MapSiteAdmin',
+				'mode'    => 'General',
 			);
 		}
 
@@ -269,10 +269,10 @@ class MapSiteAdminController extends GalleryController {
 				$results['status']   = $status;
 				$results['error']    = $error;
 				$results['delegate'] = array(
-					'view'             => 'core.SiteAdmin',
-					'subView'          => 'mapv3.MapSiteAdmin',
-					'mode'             => 'mapKey',
-					'keyUrl'           => $form['oldProfileUrl'],
+					'view'    => 'core.SiteAdmin',
+					'subView' => 'mapv3.MapSiteAdmin',
+					'mode'    => 'mapKey',
+					'keyUrl'  => $form['oldProfileUrl'],
 				);
 			}
 		}
@@ -281,9 +281,9 @@ class MapSiteAdminController extends GalleryController {
 			$results['status']   = '';
 			$results['error']    = array();
 			$results['redirect'] = array(
-				'view'             => 'mapv3.ShowMap',
-				'Mode'             => 'Pick',
-				'plugin'           => 'AdminCenter',
+				'view'   => 'mapv3.ShowMap',
+				'Mode'   => 'Pick',
+				'plugin' => 'AdminCenter',
 			);
 		}
 
@@ -291,9 +291,9 @@ class MapSiteAdminController extends GalleryController {
 			$results['status']   = '';
 			$results['error']    = array();
 			$results['redirect'] = array(
-				'view'             => 'mapv3.ShowMap',
-				'Mode'             => 'Pick',
-				'plugin'           => 'GVMDefault',
+				'view'   => 'mapv3.ShowMap',
+				'Mode'   => 'Pick',
+				'plugin' => 'GVMDefault',
 			);
 		}
 
@@ -420,8 +420,8 @@ class mapSiteAdminView extends GalleryView {
 			return $ret;
 		}
 
-		$editUrl              = GalleryUtilities::getRequestVariables('keyUrl');
-		list($ret, $profile)  = mapv3Helper::fetchKeyProfileForUrl($editUrl);
+		$editUrl             = GalleryUtilities::getRequestVariables('keyUrl');
+		list($ret, $profile) = mapv3Helper::fetchKeyProfileForUrl($editUrl);
 
 		if ($ret) {
 			return $ret;

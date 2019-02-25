@@ -33,9 +33,9 @@ GalleryCoreApi::requireOnce('modules/mapv3/classes/mapv3Helper.class');
 class mapv3Callbacks {
 	public function callback($params, &$smarty, $callback, $userId = null) {
 		global $gallery;
-		$platform            = $gallery->getPlatform();
-		static $blockNum     = 0;
-		list($ret, $module)  = GalleryCoreApi::loadPlugin('module', 'mapv3');
+		$platform           = $gallery->getPlatform();
+		static $blockNum    = 0;
+		list($ret, $module) = GalleryCoreApi::loadPlugin('module', 'mapv3');
 
 		if ($ret) {
 			return $ret->wrap(__FILE__, __LINE__);
@@ -92,9 +92,9 @@ class mapv3Callbacks {
 							if ($routeinfos[6] == 'Yes') {  // yep, need a filter for that route :-)
 								$routefilters[$i]['name']   = $routeword . ' ' . $routeinfos[1];
 								$routefilters[$i]['params'] = array(
-									'view'     => 'mapv3.ShowMap',
-									'Group'    => '',
-									'filter'   => 'Route: ' . $routeinfos[1],
+									'view'   => 'mapv3.ShowMap',
+									'Group'  => '',
+									'filter' => 'Route: ' . $routeinfos[1],
 								);
 								$i++;
 							}
@@ -132,9 +132,9 @@ class mapv3Callbacks {
 							foreach ($listofalbums as $album) {
 								$albumfilters[$i]['name']   = $albumword . ' ' . $album;
 								$albumfilters[$i]['params'] = array(
-									'view'     => 'mapv3.ShowMap',
-									'Group'    => '',
-									'album'    => $album,
+									'view'  => 'mapv3.ShowMap',
+									'Group' => '',
+									'album' => $album,
 								);
 								$i++;
 							}
@@ -385,8 +385,8 @@ class mapv3Callbacks {
 					}
 					// Add parent sequence to items to fetch from database.
 					if ($params['useParentCoords']) {
-						list($ret, $itemParents)  = GalleryCoreApi::fetchParentSequence($item->getId());
-						$markerItemIds            = array_merge($markerItemIds, $itemParents);
+						list($ret, $itemParents) = GalleryCoreApi::fetchParentSequence($item->getId());
+						$markerItemIds           = array_merge($markerItemIds, $itemParents);
 					}
 					/*
 					 * Now add the main item to the markerItemIds array so it will grab its data.
@@ -497,7 +497,7 @@ class mapv3Callbacks {
 
 							/** @todo Figure out error handling if image file doesn't exist */
 							// Get the Marker Size
-							$imageSizes = $platform->getimagesize(
+							$imageSizes                                          = $platform->getimagesize(
 								$mapModBaseDir . 'images/markers/'
 								. $ItemMarker . '/marker_' . $ItemColor . '.png'
 							);

@@ -134,12 +134,12 @@ function get_jpeg_header_data($filename) {
 
 			// Store the segment information in the output array
 			$headerdata[] = array(
-					'SegType'      => ord($data[1]),
-					'SegName'      => $GLOBALS['JPEG_Segment_Names'][ord($data[1])],
-					'SegDesc'      => $GLOBALS['JPEG_Segment_Descriptions'][ord($data[1])],
-					'SegDataStart' => $segdatastart,
-					'SegData'      => $segdata,
-				);
+				'SegType'      => ord($data[1]),
+				'SegName'      => $GLOBALS['JPEG_Segment_Names'][ord($data[1])],
+				'SegDesc'      => $GLOBALS['JPEG_Segment_Descriptions'][ord($data[1])],
+				'SegDataStart' => $segdatastart,
+				'SegData'      => $segdata,
+			);
 		}
 
 		// If this is a SOS (Start Of Scan) segment, then there is no more header data - the compressed image data follows
@@ -353,18 +353,18 @@ function put_jpeg_Comment($jpeg_header_data, $new_Comment) {
 
 	// insert a Comment segment new at the position found of the header data.
 	array_splice(
-			$jpeg_header_data,
-			$i,
-			0,
+		$jpeg_header_data,
+		$i,
+		0,
+		array(
 			array(
-				array(
-					'SegType'     => 0xFE,
-					'SegName'     => $GLOBALS['JPEG_Segment_Names'][0xFE],
-					'SegDesc'     => $GLOBALS['JPEG_Segment_Descriptions'][0xFE],
-					'SegData'     => $new_Comment,
-				),
-			)
-		);
+				'SegType' => 0xFE,
+				'SegName' => $GLOBALS['JPEG_Segment_Names'][0xFE],
+				'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xFE],
+				'SegData' => $new_Comment,
+			),
+		)
+	);
 
 	return $jpeg_header_data;
 }
@@ -457,11 +457,11 @@ function get_jpeg_intrinsic_values($jpeg_header_data) {
 		// Following this is a table containing information about the components
 		for ($i = 0; $i < $numcomponents; $i++) {
 			$Outputarray['Components'][] = array(
-					'Component Identifier'                    => ord($data[6 + $i * 3]),
-					'Horizontal Sampling Factor'              => (ord($data[7 + $i * 3]) & 0xF0) / 16,
-					'Vertical Sampling Factor'                => (ord($data[7 + $i * 3]) & 0x0F),
-					'Quantization table destination selector' => ord($data[8 + $i * 3]),
-				);
+				'Component Identifier'                    => ord($data[6 + $i * 3]),
+				'Horizontal Sampling Factor'              => (ord($data[7 + $i * 3]) & 0xF0) / 16,
+				'Vertical Sampling Factor'                => (ord($data[7 + $i * 3]) & 0x0F),
+				'Quantization table destination selector' => ord($data[8 + $i * 3]),
+			);
 		}
 	} else {
 		// Couldn't find Start Of Frame segment, hence can't retrieve info

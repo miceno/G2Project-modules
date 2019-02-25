@@ -261,18 +261,18 @@ function put_EXIF_JPEG($exif_data, $jpeg_header_data) {
 
 	// No preexisting EXIF block found, insert a new one at the start of the header data.
 	array_splice(
-			$jpeg_header_data,
-			$highest_APP + 1,
-			0,
+		$jpeg_header_data,
+		$highest_APP + 1,
+		0,
+		array(
 			array(
-				array(
-					'SegType' => 0xE1,
-					'SegName' => 'APP1',
-					'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xE1],
-					'SegData' => $packed_data,
-				),
-			)
-		);
+				'SegType' => 0xE1,
+				'SegName' => 'APP1',
+				'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xE1],
+				'SegData' => $packed_data,
+			),
+		)
+	);
 
 	return $jpeg_header_data;
 }
@@ -438,18 +438,18 @@ function put_Meta_JPEG($meta_data, $jpeg_header_data) {
 
 	// No preexisting Meta block found, insert a new one at the start of the header data.
 	array_splice(
-			$jpeg_header_data,
-			$highest_APP + 1,
-			0,
+		$jpeg_header_data,
+		$highest_APP + 1,
+		0,
+		array(
 			array(
-				array(
-					'SegType'     => 0xE3,
-					'SegName'     => 'APP3',
-					'SegDesc'     => $GLOBALS['JPEG_Segment_Descriptions'][0xE1],
-					'SegData'     => $packed_data,
-				),
-			)
-		);
+				'SegType' => 0xE3,
+				'SegName' => 'APP3',
+				'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xE1],
+				'SegData' => $packed_data,
+			),
+		)
+	);
 
 	return $jpeg_header_data;
 }
@@ -1291,26 +1291,26 @@ function read_IFD_universal($filehnd, $Tiff_offset, $Byte_Align, $Tag_Definition
 
 			// Tag exists in definitions, append details to output array
 			$OutputArray[$Tag_No] = array(
-					'Tag Number'      => $Tag_No,
-					'Tag Name'        => $GLOBALS['IFD_Tag_Definitions'][$Tag_Definitions_Name][$Tag_No]['Name'],
-					'Tag Description' => $desc,
-					'Data Type'       => $Data_Type,
-					'Type'            => $GLOBALS['IFD_Tag_Definitions'][$Tag_Definitions_Name][$Tag_No]['Type'],
-					'Units'           => $units,
-					'Data'            => $Data_Array,
-				);
+				'Tag Number'      => $Tag_No,
+				'Tag Name'        => $GLOBALS['IFD_Tag_Definitions'][$Tag_Definitions_Name][$Tag_No]['Name'],
+				'Tag Description' => $desc,
+				'Data Type'       => $Data_Type,
+				'Type'            => $GLOBALS['IFD_Tag_Definitions'][$Tag_Definitions_Name][$Tag_No]['Type'],
+				'Units'           => $units,
+				'Data'            => $Data_Array,
+			);
 		} else {
 			// Tag doesnt exist in definitions, append unknown details to output array
 
 			$OutputArray[$Tag_No] = array(
-					'Tag Number'      => $Tag_No,
-					'Tag Name'        => 'Unknown Tag #' . $Tag_No,
-					'Tag Description' => '',
-					'Data Type'       => $Data_Type,
-					'Type'            => 'Unknown',
-					'Units'           => '',
-					'Data'            => $Data_Array,
-				);
+				'Tag Number'      => $Tag_No,
+				'Tag Name'        => 'Unknown Tag #' . $Tag_No,
+				'Tag Description' => '',
+				'Data Type'       => $Data_Type,
+				'Type'            => 'Unknown',
+				'Units'           => '',
+				'Data'            => $Data_Array,
+			);
 		}
 
 
@@ -1355,9 +1355,9 @@ function read_IFD_universal($filehnd, $Tiff_offset, $Byte_Align, $Tag_Definition
 		// Check if this entry is the Maker Note
 		if (($Tag_Definitions_Name == 'EXIF') && ($Tag_No == 37500)) {
 			// Save some extra information which will allow Makernote Decoding with the output array entry
-			$OutputArray[$Tag_No]['Offset']        = $Data_Start_pos;
-			$OutputArray[$Tag_No]['Tiff Offset']   = $Tiff_offset;
-			$OutputArray[$Tag_No]['ByteAlign']     = $Byte_Align;
+			$OutputArray[$Tag_No]['Offset']      = $Data_Start_pos;
+			$OutputArray[$Tag_No]['Tiff Offset'] = $Tiff_offset;
+			$OutputArray[$Tag_No]['ByteAlign']   = $Byte_Align;
 
 			// Save a pointer to this entry for Maker note processing later
 			$GLOBALS['Maker_Note_Tag'] = & $OutputArray[$Tag_No];
@@ -1503,7 +1503,9 @@ function get_Tag_Text_Value($Tag, $Tag_Definitions_Name) {
 		}
 		// Otherwise return the default string value of the datatype
 		return get_IFD_value_as_text($Tag);
-	} elseif ($Tag['Type'] == 'Character Coded String') {
+	}
+
+	if ($Tag['Type'] == 'Character Coded String') {
 		// Format is Character Coded String (First 8 characters indicate coding scheme)
 
 		// Convert Data to a string
@@ -1542,7 +1544,9 @@ function get_Tag_Text_Value($Tag, $Tag_Definitions_Name) {
 		}
 		// Unknown coding - return string indicating this
 		return "Unsupported character coding : \"$char_code\"\n\"" . trim($characters) . '"';
-	} elseif ($Tag['Type'] == 'Numeric') {
+	}
+
+	if ($Tag['Type'] == 'Numeric') {
 		// Format is numeric - return default text value with any required units text appended
 		if (array_key_exists('Units', $GLOBALS['IFD_Tag_Definitions'][$Tag_Definitions_Name][$Tag['Tag Number']])) {
 			$units = $GLOBALS['IFD_Tag_Definitions'][$Tag_Definitions_Name][$Tag['Tag Number']]['Units'];
@@ -1551,7 +1555,9 @@ function get_Tag_Text_Value($Tag, $Tag_Definitions_Name) {
 		}
 
 		return get_IFD_value_as_text($Tag) . ' ' . $units;
-	} elseif ($Tag['Type'] == 'Lookup') {
+	}
+
+	if ($Tag['Type'] == 'Lookup') {
 		// Format is a Lookup Table
 
 		// Get a numeric value to use in lookup
@@ -1574,13 +1580,19 @@ function get_Tag_Text_Value($Tag, $Tag_Definitions_Name) {
 		}
 		// Data value doesnt exist in lookup table - return explanation string
 		return "Unknown Reserved value $first_val ";
-	} elseif ($Tag['Type'] == 'Special') {
+	}
+
+	if ($Tag['Type'] == 'Special') {
 		// Format is special - interpret to text with special handlers
 		return get_Special_Tag_Text_Value($Tag, $Tag_Definitions_Name);
-	} elseif ($Tag['Type'] == 'PIM') {
+	}
+
+	if ($Tag['Type'] == 'PIM') {
 		// Format is Print Image Matching info - interpret with custom handler
 		return get_PIM_Text_Value($Tag, $Tag_Definitions_Name);
-	} elseif ($Tag['Type'] == 'SubIFD') {
+	}
+
+	if ($Tag['Type'] == 'SubIFD') {
 		// Format is a Sub-IFD - this has no text value
 		return '';
 	}
@@ -1631,7 +1643,7 @@ function get_Special_Tag_Text_Value($Tag, $Tag_Definitions_Name) {
 					return 'YCbCr 4:2:0 ratio of chrominance components to the luminance components';
 				}
 						// Other values are unknown
-						return 'Unknown Reserved value (' . $Tag['Data'][0] . ')';
+				return 'Unknown Reserved value (' . $Tag['Data'][0] . ')';
 
 				break;
 
@@ -2058,7 +2070,7 @@ function get_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 		return unpack('VNumerator/VDenominator', $input_data);
 	}
 	// Check if this is a Signed Byte, Signed Short or Signed Long
-	elseif (($data_type == 6) || ($data_type == 8) || ($data_type == 9)) {
+	if (($data_type == 6) || ($data_type == 8) || ($data_type == 9)) {
 		// This is a Signed Byte, Signed Short or Signed Long
 
 		// Check the byte alignment to see if the bytes need to be reversed
@@ -2094,12 +2106,12 @@ function get_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 		return $value;
 	}
 	// Check if this is Undefined type
-	elseif ($data_type == 7) {
+	if ($data_type == 7) {
 		// Custom Data - Do nothing
 		return $input_data;
 	}
 	// Check if this is a Signed Rational type
-	elseif ($data_type == 10) {
+	if ($data_type == 10) {
 		// This is a Signed Rational type
 
 		// Signed Long not available with endian in unpack , use unsigned and convert
@@ -2133,13 +2145,13 @@ function get_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 		return $value;
 	}
 	// Check if this is a Float type
-	elseif ($data_type == 11) {
+	if ($data_type == 11) {
 		// IEEE 754 Float
 		// TODO - EXIF - IFD datatype Float not implemented yet
 		return 'FLOAT NOT IMPLEMENTED YET';
 	}
 	// Check if this is a Double type
-	elseif ($data_type == 12) {
+	if ($data_type == 12) {
 		// IEEE 754 Double
 		// TODO - EXIF - IFD datatype Double not implemented yet
 		return 'DOUBLE NOT IMPLEMENTED YET';
@@ -2207,7 +2219,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return pack('v', $input_data);
 			}
 					// Motorola/Big Endian - pack the short and return
-					return pack('n', $input_data);
+			return pack('n', $input_data);
 
 			break;
 
@@ -2218,7 +2230,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return pack('V', $input_data);
 			}
 					// Motorola/Big Endian - pack the long and return
-					return pack('N', $input_data);
+			return pack('N', $input_data);
 
 			break;
 
@@ -2229,7 +2241,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return pack('VV', $input_data['Numerator'], $input_data['Denominator']);
 			}
 					// Motorola/Big Endian - pack the two longs and return
-					return pack('NN', $input_data['Numerator'], $input_data['Denominator']);
+			return pack('NN', $input_data['Numerator'], $input_data['Denominator']);
 
 			break;
 
@@ -2240,7 +2252,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return chr($input_data + 256);
 			}
 					// Number is positive - return character
-					return chr($input_data);
+			return chr($input_data);
 
 			break;
 
@@ -2261,7 +2273,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return pack('v', $input_data);
 			}
 					// Motorola/Big Endian - pack the short and return
-					return pack('n', $input_data);
+			return pack('n', $input_data);
 
 			break;
 
@@ -2277,7 +2289,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return pack('v', $input_data);
 			}
 					// Motorola/Big Endian - pack the long and return
-					return pack('n', $input_data);
+			return pack('n', $input_data);
 
 			break;
 
@@ -2298,7 +2310,7 @@ function put_IFD_Data_Type($input_data, $data_type, $Byte_Align) {
 				return pack('VV', $input_data['Numerator'], $input_data['Denominator']);
 			}
 					// Motorola/Big Endian - pack the two longs and return
-					return pack('NN', $input_data['Numerator'], $input_data['Denominator']);
+			return pack('NN', $input_data['Numerator'], $input_data['Denominator']);
 
 			break;
 

@@ -82,7 +82,7 @@ class MapGroupAdminController extends GalleryController {
 				}
 			}
 			// Get the coordinates and such in the map database
-			$query               = '
+			$query              = '
             SELECT
 	      [mapv3Map::field],
 	      [mapv3Map::value]
@@ -569,11 +569,11 @@ class MapGroupAdminController extends GalleryController {
 				$ret = GalleryCoreApi::addMapEntry(
 					'mapv3Map',
 					array(
-						'itemId'     => $id,
-						'field'      => 'Color',
-						'value'      => $color,
-						'setId'      => 0,
-						'setType'    => 2,
+						'itemId'  => $id,
+						'field'   => 'Color',
+						'value'   => $color,
+						'setId'   => 0,
+						'setType' => 2,
 					)
 				);
 
@@ -610,13 +610,13 @@ class MapGroupAdminView extends GalleryView {
 		$form['formName'] = 'MapGroupAdmin';
 
 		// Get the date/time format and today's date
-		list($ret, $coreParams)  = GalleryCoreApi::fetchAllPluginParameters('module', 'core');
-		$dateFormat              = $coreParams['format.date'];
-		$form['now']             = strftime($dateFormat, strtotime('now'));
+		list($ret, $coreParams) = GalleryCoreApi::fetchAllPluginParameters('module', 'core');
+		$dateFormat             = $coreParams['format.date'];
+		$form['now']            = strftime($dateFormat, strtotime('now'));
 
 		// Select items that have GPS coordinates filled out
-		$storage              =& $gallery->getStorage();
-		$query                = '
+		$storage             =& $gallery->getStorage();
+		$query               = '
 	SELECT
 	  [mapv3Map::itemId],
 	  [mapv3Map::value]

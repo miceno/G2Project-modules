@@ -84,18 +84,18 @@ foreach ($param as $key => $value) {
 
 	// Add in the Photo colors into the custom field
 	$newparam['photo'][] = array(
-		'field'               => 'Color',
-		'summary'             => '',
-		'detail'              => 1,
-		'choices'             => $photolist,
+		'field'   => 'Color',
+		'summary' => '',
+		'detail'  => 1,
+		'choices' => $photolist,
 	);
 
 	// Add in the Album colors into the custom field
 	$newparam['album'][] = array(
-		'field'               => 'Color',
-		'summary'             => '',
-		'detail'              => 1,
-		'choices'             => $albumlist,
+		'field'   => 'Color',
+		'summary' => '',
+		'detail'  => 1,
+		'choices' => $albumlist,
 	);
 
 	$ret = mapv3Helper::saveParameters($newparam, 0);

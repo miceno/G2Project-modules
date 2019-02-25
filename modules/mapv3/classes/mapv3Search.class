@@ -78,10 +78,10 @@ class mapv3Search extends GallerySearchInterface_1_0 {
 			return array(
 				null,
 				array(
-					'start'                      => 0,
-					'end'                        => '0',
-					'count'                      => 0,
-					'results'                    => array(),
+					'start'   => 0,
+					'end'     => '0',
+					'count'   => 0,
+					'results' => array(),
 				),
 			);
 		}
@@ -165,10 +165,10 @@ class mapv3Search extends GallerySearchInterface_1_0 {
 		}
 
 		$data = array(
-			'start'     => ($numRows == 0) ? 0 : $offset + 1,
-			'end'       => ($numRows == 0) ? 0 : $offset + sizeof($searchResults),
-			'count'     => $numRows,
-			'results'   => $searchResults,
+			'start'   => ($numRows == 0) ? 0 : $offset + 1,
+			'end'     => ($numRows == 0) ? 0 : $offset + sizeof($searchResults),
+			'count'   => $numRows,
+			'results' => $searchResults,
 		);
 
 		return array(null, $data);

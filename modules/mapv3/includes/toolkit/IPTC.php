@@ -105,10 +105,10 @@ function get_IPTC($Data_Str) {
 		}
 
 		// Add the IPTC record to the output array
-		$OutputArray[] = array("IPTC_Type" => $iptctype,
-										"RecName"                  => $GLOBALS["IPTC_Entry_Names"][$iptctype],
-										"RecDesc"                  => $GLOBALS["IPTC_Entry_Descriptions"][$iptctype],
-										"RecData"                  => substr($Data_Str, $pos, $iptc_raw['IPTC_Size']), );
+		$OutputArray[] = array("IPTC_Type"        => $iptctype,
+										"RecName" => $GLOBALS["IPTC_Entry_Names"][$iptctype],
+										"RecDesc" => $GLOBALS["IPTC_Entry_Descriptions"][$iptctype],
+										"RecData" => substr($Data_Str, $pos, $iptc_raw['IPTC_Size']), );
 
 		// Skip over the IPTC record data
 		$pos += $iptc_raw['IPTC_Size'];
@@ -274,7 +274,7 @@ function Interpret_IPTC_to_HTML($IPTC_info) {
 										case "2:55":    // Application Record:Date Created
 										case "2:62":    // Application Record:Digital Creation Date
 										case "1:70":    // Envelope Record:Date Sent
-												$date_array = unpack("a4Year/a2Month/A2Day", $IPTC_Record['RecData']);
+												$date_array  = unpack("a4Year/a2Month/A2Day", $IPTC_Record['RecData']);
 												$output_str .= "<tr class=\"IPTC_Table_Row\"><td class=\"IPTC_Caption_Cell\">$Record_Name</td><td class=\"IPTC_Value_Cell\">" . nl2br(HTML_UTF8_Escape($date_array['Day'] . "/" . $date_array['Month'] . "/" . $date_array['Year'])) . "</td></tr>\n";
 
 												break;
@@ -284,7 +284,7 @@ function Interpret_IPTC_to_HTML($IPTC_info) {
 										case "2:60":    // Application Record:Time Created
 										case "2:63":    // Application Record:Digital Creation Time
 										case "1:80":    // Envelope Record:Time Sent
-												$time_array = unpack("a2Hour/a2Minute/A2Second/APlusMinus/A4Timezone", $IPTC_Record['RecData']);
+												$time_array  = unpack("a2Hour/a2Minute/A2Second/APlusMinus/A4Timezone", $IPTC_Record['RecData']);
 												$output_str .= "<tr class=\"IPTC_Table_Row\"><td class=\"IPTC_Caption_Cell\">$Record_Name</td><td class=\"IPTC_Value_Cell\">" . nl2br(HTML_UTF8_Escape($time_array['Hour'] . ":" . $time_array['Minute'] . ":" . $time_array['Second'] . " " . $time_array['PlusMinus'] . $time_array['Timezone'])) . "</td></tr>\n";
 
 												break;
@@ -619,19 +619,19 @@ $GLOBALS["IPTC_File Formats"] = array(
  *
  ******************************************************************************/
 
-$GLOBALS['ImageType_Names'] = array("M" => "Monochrome",
-										"Y"                           => "Yellow Component",
-										"M"                           => "Magenta Component",
-										"C"                           => "Cyan Component",
-										"K"                           => "Black Component",
-										"R"                           => "Red Component",
-										"G"                           => "Green Component",
-										"B"                           => "Blue Component",
-										"T"                           => "Text Only",
-										"F"                           => "Full colour composite, frame sequential",
-										"L"                           => "Full colour composite, line sequential",
-										"P"                           => "Full colour composite, pixel sequential",
-										"S"                           => "Full colour composite, special interleaving", );
+$GLOBALS['ImageType_Names'] = array("M"     => "Monochrome",
+										"Y" => "Yellow Component",
+										"M" => "Magenta Component",
+										"C" => "Cyan Component",
+										"K" => "Black Component",
+										"R" => "Red Component",
+										"G" => "Green Component",
+										"B" => "Blue Component",
+										"T" => "Text Only",
+										"F" => "Full colour composite, frame sequential",
+										"L" => "Full colour composite, line sequential",
+										"P" => "Full colour composite, pixel sequential",
+										"S" => "Full colour composite, special interleaving", );
 
 
 

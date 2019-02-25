@@ -352,8 +352,8 @@ class MapRouteAdminView extends GalleryView {
 		$form['now'] = strftime($dateFormat, strtotime('now'));
 
 		// Select items that have GPS coordinates filled out
-		$storage              =& $gallery->getStorage();
-		$query                = '
+		$storage             =& $gallery->getStorage();
+		$query               = '
         SELECT
 	  [mapv3Map::itemId],
 	  [mapv3Map::value]

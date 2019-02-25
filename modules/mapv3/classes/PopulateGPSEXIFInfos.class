@@ -63,8 +63,8 @@ class PopulateGPSEXIFInfos extends MaintenanceTask {
 			return $ret->wrap(__FILE__, __LINE__);
 		}
 
-		$query               = 'SELECT [PhotoItem::id] FROM [PhotoItem] ORDER BY [PhotoItem::id]';
-		list($ret, $result)  = $gallery->search($query);
+		$query              = 'SELECT [PhotoItem::id] FROM [PhotoItem] ORDER BY [PhotoItem::id]';
+		list($ret, $result) = $gallery->search($query);
 
 		if ($ret) {
 			return $ret->wrap(__FILE__, __LINE__);
@@ -108,9 +108,9 @@ class PopulateGPSEXIFInfos extends MaintenanceTask {
 			}
 
 			if ($coords != null) {
-				list($ret, $fields)  = mapv3Helper::fetchFieldValues(array($item));
-				$fields[$id]['GPS']  = $coords;
-				$ret                 = mapv3Helper::saveFieldValues($item, $fields[$id]);
+				list($ret, $fields) = mapv3Helper::fetchFieldValues(array($item));
+				$fields[$id]['GPS'] = $coords;
+				$ret                = mapv3Helper::saveFieldValues($item, $fields[$id]);
 
 				if ($ret) {
 					return $ret->wrap(__FILE__, __LINE__);
@@ -120,9 +120,9 @@ class PopulateGPSEXIFInfos extends MaintenanceTask {
 				$insertEXIFcoordinates,
 				$module->translate(
 					array(
-						'text'                          => 'Item %d of %d',
-						'arg1'                          => $current,
-						'arg2'                          => $totalitems,
+						'text' => 'Item %d of %d',
+						'arg1' => $current,
+						'arg2' => $totalitems,
 					)
 				),
 				$current / $totalitems

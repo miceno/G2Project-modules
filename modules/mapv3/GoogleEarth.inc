@@ -84,8 +84,8 @@ class GoogleEarthView extends GalleryView {
 		global $gallery;
 		$phpVm = $gallery->getPhpVm();
 
-		$itemId            = GalleryUtilities::getRequestVariables('itemId');
-		list($ret, $item)  = GalleryCoreApi::loadEntitiesById($itemId);
+		$itemId           = GalleryUtilities::getRequestVariables('itemId');
+		list($ret, $item) = GalleryCoreApi::loadEntitiesById($itemId);
 
 		if ($ret) {
 			return array($ret->wrap(__FILE__, __LINE__), null);

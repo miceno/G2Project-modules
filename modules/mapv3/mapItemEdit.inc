@@ -42,9 +42,9 @@ class mapItemEdit extends ItemEditPlugin {
 		global $gallery;
 		$gurl =& $gallery->getUrlGenerator();
 
-		$status              = null;
-		$error               = array();
-		list($ret, $module)  = GalleryCoreApi::loadPlugin('module', 'mapv3');
+		$status             = null;
+		$error              = array();
+		list($ret, $module) = GalleryCoreApi::loadPlugin('module', 'mapv3');
 
 		if ($ret) {
 			return array($ret->wrap(__FILE__, __LINE__), null, null, null);

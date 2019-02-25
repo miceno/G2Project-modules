@@ -201,20 +201,20 @@ function put_Photoshop_IRB($jpeg_header_data, $new_IRB_data) {
 
 		// Write a 32000 byte APP13 segment
 		array_splice(
-				$jpeg_header_data,
-				$i + 1,
-				0,
-				array(
-					'SegType'     => 0xED,
-					'SegName'     => 'APP13',
-					'SegDesc'     => $GLOBALS['JPEG_Segment_Descriptions'][0xED],
-					'SegData'     => "Photoshop 3.0\x00" . substr(
-						$packed_IRB_data,
-						0,
-						32000
-					),
-				)
-			);
+			$jpeg_header_data,
+			$i + 1,
+			0,
+			array(
+				'SegType' => 0xED,
+				'SegName' => 'APP13',
+				'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xED],
+				'SegData' => "Photoshop 3.0\x00" . substr(
+					$packed_IRB_data,
+					0,
+					32000
+				),
+			)
+		);
 
 		// Delete the 32000 bytes from the packed output data, that were just output
 		$packed_IRB_data = substr_replace($packed_IRB_data, '', 0, 32000);
@@ -224,11 +224,11 @@ function put_Photoshop_IRB($jpeg_header_data, $new_IRB_data) {
 	// Write the last block of packed output data to an APP13 segment - Note array_splice doesn't work with multidimensional arrays, hence inserting a blank string
 	array_splice($jpeg_header_data, $i + 1, 0, '');
 	$jpeg_header_data[$i + 1] = array(
-			'SegType'     => 0xED,
-			'SegName'     => 'APP13',
-			'SegDesc'     => $GLOBALS['JPEG_Segment_Descriptions'][0xED],
-			'SegData'     => "Photoshop 3.0\x00" . $packed_IRB_data,
-		);
+		'SegType' => 0xED,
+		'SegName' => 'APP13',
+		'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xED],
+		'SegData' => "Photoshop 3.0\x00" . $packed_IRB_data,
+	);
 
 	return $jpeg_header_data;
 }
@@ -329,12 +329,12 @@ function put_Photoshop_IPTC($Photoshop_IRB_data, $new_IPTC_block) {
 
 	// Write the new IRB resource to the Photoshop IRB array with no data
 	$Photoshop_IRB_data[$iptc_block_pos] = array(
-			'ResID'           => 0x0404,
-			'ResName'         => $GLOBALS['Photoshop_ID_Names'][0x0404],
-			'ResDesc'         => $GLOBALS['Photoshop_ID_Descriptions'][0x0404],
-			'ResEmbeddedName' => "\x00\x00",
-			'ResData'         => put_IPTC($new_IPTC_block),
-		);
+		'ResID'           => 0x0404,
+		'ResName'         => $GLOBALS['Photoshop_ID_Names'][0x0404],
+		'ResDesc'         => $GLOBALS['Photoshop_ID_Descriptions'][0x0404],
+		'ResEmbeddedName' => "\x00\x00",
+		'ResData'         => put_IPTC($new_IPTC_block),
+	);
 
 
 	// Return the modified IRB
@@ -1021,12 +1021,12 @@ function unpack_Photoshop_IRB_Data($IRB_Data) {
 		// Store the Resource in the array to be returned
 
 		$IRB_Array[] = array(
-				'ResID'           => $ID,
-				'ResName'         => $ResName,
-				'ResDesc'         => $ResDesc,
-				'ResEmbeddedName' => $resembeddedname,
-				'ResData'         => $resdata,
-			);
+			'ResID'           => $ID,
+			'ResName'         => $ResName,
+			'ResDesc'         => $ResDesc,
+			'ResEmbeddedName' => $resembeddedname,
+			'ResData'         => $resdata,
+		);
 
 		// Jump over the data to the next record
 		$pos += $storedsize;

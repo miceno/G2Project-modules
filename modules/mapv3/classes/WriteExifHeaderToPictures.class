@@ -63,7 +63,7 @@ class WriteExifHeaderToPictures extends MaintenanceTask {
 			return $ret->wrap(__FILE__, __LINE__);
 		}
 
-		$query               = '
+		$query              = '
             SELECT
               [PhotoItem::id], [mapv3Map::value]
             FROM
@@ -142,9 +142,9 @@ class WriteExifHeaderToPictures extends MaintenanceTask {
 				$insertEXIFcoordinates,
 				$module->translate(
 					array(
-						'text'                          => 'Item %d of %d',
-						'arg1'                          => $current,
-						'arg2'                          => $totalitems,
+						'text' => 'Item %d of %d',
+						'arg1' => $current,
+						'arg2' => $totalitems,
 					)
 				),
 				$current / $totalitems

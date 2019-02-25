@@ -152,18 +152,18 @@ function put_XMP_text($jpeg_header_data, $newXMP) {
 	// Insert a new XMP/RDF APP1 segment at the specified point.
 	// Change: changed to properly construct array element as of revision 1.04 - requires two array statements not one, requires insertion at $i, not $i - 1
 	array_splice(
-			$jpeg_header_data,
-			$i,
-			0,
+		$jpeg_header_data,
+		$i,
+		0,
+		array(
 			array(
-				array(
-					'SegType' => 0xE1,
-					'SegName' => 'APP1',
-					'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xE1],
-					'SegData' => "http://ns.adobe.com/xap/1.0/\x00" . $newXMP,
-				),
-			)
-		);
+				'SegType' => 0xE1,
+				'SegName' => 'APP1',
+				'SegDesc' => $GLOBALS['JPEG_Segment_Descriptions'][0xE1],
+				'SegData' => "http://ns.adobe.com/xap/1.0/\x00" . $newXMP,
+			),
+		)
+	);
 
 	// Return the headers with the new segment inserted
 	return $jpeg_header_data;

@@ -210,8 +210,8 @@ class MapFilterAdminController extends GalleryController {
 					if ($ret) {
 						return array($ret->wrap(__FILE__, __LINE__), null);
 					}
-					$settings                       = $deftheme->getSettings(null);
-					list($thememajor, $thememinor)  = $deftheme->getApiVersion();
+					$settings                      = $deftheme->getSettings(null);
+					list($thememajor, $thememinor) = $deftheme->getApiVersion();
 					/*
 					 * This block manipulation logic only works for earlier block encoding,
 					 * so skip it for later Theme API versions to avoid corrupting the
@@ -223,11 +223,11 @@ class MapFilterAdminController extends GalleryController {
 
 							foreach ($settings as $key => $values) {
 								if ($key == 'sidebarBlocks') {
-									list($ret, $value)     = $deftheme->unpackSetting('block-list', $values);
-									$value                 = str_replace('[map.map]', '', $value);
-									$value                 = '[map.map] ' . $value;
-									list($ret, $newvalue)  = $deftheme->packSetting('block-list', $value);
-									$ret                   = $deftheme->setParameter('sidebarBlocks', $newvalue);
+									list($ret, $value)    = $deftheme->unpackSetting('block-list', $values);
+									$value                = str_replace('[map.map]', '', $value);
+									$value                = '[map.map] ' . $value;
+									list($ret, $newvalue) = $deftheme->packSetting('block-list', $value);
+									$ret                  = $deftheme->setParameter('sidebarBlocks', $newvalue);
 								}
 							}
 						} elseif (is_array($settings[1])) {
@@ -237,10 +237,10 @@ class MapFilterAdminController extends GalleryController {
 										'block-list',
 										$settings[1][$num]['value']
 									);
-									$value                  = str_replace('[map.map]', '', $value);
-									$value                  = '[map.map] ' . $value;
-									list($ret, $newvalue)   = $deftheme->packSetting('block-list', $value);
-									$ret                    = $deftheme->setParameter('sidebarBlocks', $newvalue);
+									$value                 = str_replace('[map.map]', '', $value);
+									$value                 = '[map.map] ' . $value;
+									list($ret, $newvalue)  = $deftheme->packSetting('block-list', $value);
+									$ret                   = $deftheme->setParameter('sidebarBlocks', $newvalue);
 								}
 							}
 						}
@@ -264,8 +264,8 @@ class MapFilterAdminController extends GalleryController {
 					if ($ret) {
 						return array($ret->wrap(__FILE__, __LINE__), null);
 					}
-					$settings                       = $deftheme->getSettings(null);
-					list($thememajor, $thememinor)  = $deftheme->getApiVersion();
+					$settings                      = $deftheme->getSettings(null);
+					list($thememajor, $thememinor) = $deftheme->getApiVersion();
 					/*
 					 * This block manipulation logic only works for earlier block encoding,
 					 * so skip it for later Theme API versions to avoid corrupting the
@@ -277,10 +277,10 @@ class MapFilterAdminController extends GalleryController {
 
 							foreach ($settings as $key => $values) {
 								if ($key == 'sidebarBlocks') {
-									list($ret, $value)     = $deftheme->unpackSetting('block-list', $values);
-									$value                 = str_replace('[map.map]', '', $value);
-									list($ret, $newvalue)  = $deftheme->packSetting('block-list', $value);
-									$ret                   = $deftheme->setParameter('sidebarBlocks', $newvalue);
+									list($ret, $value)    = $deftheme->unpackSetting('block-list', $values);
+									$value                = str_replace('[map.map]', '', $value);
+									list($ret, $newvalue) = $deftheme->packSetting('block-list', $value);
+									$ret                  = $deftheme->setParameter('sidebarBlocks', $newvalue);
 								}
 							}
 						} elseif (is_array($settings[1])) {
@@ -290,9 +290,9 @@ class MapFilterAdminController extends GalleryController {
 										'block-list',
 										$settings[1][$num]['value']
 									);
-									$value                  = str_replace('[map.map]', '', $value);
-									list($ret, $newvalue)   = $deftheme->packSetting('block-list', $value);
-									$ret                    = $deftheme->setParameter('sidebarBlocks', $newvalue);
+									$value                 = str_replace('[map.map]', '', $value);
+									list($ret, $newvalue)  = $deftheme->packSetting('block-list', $value);
+									$ret                   = $deftheme->setParameter('sidebarBlocks', $newvalue);
 								}
 							}
 						}

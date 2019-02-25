@@ -112,10 +112,10 @@ function Decode_PIM($tag, $Tag_Definitions_Name) {
 
 				// Read the tag data - 4 bytes
 				$newtag['Data'][] = array(
-						'Tag Number' => $PI_tag,
-						'Data'       => substr($data_part, $a * 6 + 2, 4),
-						'Decoded'    => false,
-					);
+					'Tag Number' => $PI_tag,
+					'Data'       => substr($data_part, $a * 6 + 2, 4),
+					'Decoded'    => false,
+				);
 			}
 		}
 	}

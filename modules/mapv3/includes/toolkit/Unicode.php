@@ -720,10 +720,10 @@ function xml_UTF8_clean($UTF8_text) {
 
 	// Escape CR, LF and TAB characters, so that they are kept and not treated as expendable white space
 	$trans     = array(
-			"\x09" => '&#x09;',
-			"\x0A" => '&#x0A;',
-			"\x0D" => '&#x0D;',
-		);
+		"\x09" => '&#x09;',
+		"\x0A" => '&#x0A;',
+		"\x0D" => '&#x0D;',
+	);
 	$UTF8_text = strtr($UTF8_text, $trans);
 
 	// Return the resulting XML valid string
@@ -801,10 +801,10 @@ function xml_UTF16_clean($UTF16_text, $MSB_first) {
 
 	// Escape CR, LF and TAB characters, so that they are kept and not treated as expendable white space
 	$trans      = array(
-			"\x09" => '&#x09;',
-			"\x0A" => '&#x0A;',
-			"\x0D" => '&#x0D;',
-		);
+		"\x09" => '&#x09;',
+		"\x0A" => '&#x0A;',
+		"\x0D" => '&#x0D;',
+	);
 	$UTF16_text = strtr($UTF16_text, $trans);
 
 	// Return the resulting XML valid string
@@ -896,8 +896,8 @@ function HTML_UTF8_UnEscape($HTML_text) {
 
 	for ($i = 0; $i < count($matches[0]); $i++) {
 		$trans = array(
-				$matches[0][$i] => unicode_array_to_UTF8(array($matches[1][$i])),
-			);
+			$matches[0][$i] => unicode_array_to_UTF8(array($matches[1][$i])),
+		);
 
 		$HTML_text = strtr($HTML_text, $trans);
 	}
